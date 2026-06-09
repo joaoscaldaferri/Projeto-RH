@@ -1,0 +1,19 @@
+ RELATÓRIO GERAL DO SISTEMA DE RH
+
+
+      CANDIDATOS:      
+Candidato: João Pedro | CPF:  390.533.447-05 | Área: TI | Experiência: 1 anos | Formação: ADS
+
+      FUNCIONÁRIOS:      
+Funcionário: Sheila | CPF: 85932740566 | Cargo: Professora | Setor: tecnologia | Turno: manhã
+
+      FÉRIAS E ESCALAS:      
+ID: 1 | Funcionário: Sheila | Cargo: Professora | Férias: 09/05/2026 até 09/06/2026 | Turno: manhã
+
+      ENTREVISTAS:      
+ID: 1 | Candidato: João Pedro | Cargo: Progamador | Urgência: 3 | Prioridade calculada: 4 | Data: 10/06/2026 | Horário: 09:50
+
+      FEEDBACKS:      
+ID: 1 | Funcionário: Sheila | Avaliador: Joao | Nota: 9 | Data: 09/06/2026 | Comentário: ela é muito boa
+
+ FIM DO RELATÓRIO
