@@ -1,4 +1,4 @@
-package br.com.rhmanager.model;
+package rhpoo.modelo;
 
 //classe que representa o feedback do funcionário
 public class Feedback {

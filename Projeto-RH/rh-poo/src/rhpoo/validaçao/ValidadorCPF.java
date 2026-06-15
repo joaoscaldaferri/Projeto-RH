@@ -1,7 +1,7 @@
-package br.com.rhmanager.util;
+package rhpoo.validaçao;
 
-import br.com.rhmanager.model.Candidato;
-import br.com.rhmanager.model.Funcionario;
+import rhpoo.modelo.Candidato;
+import rhpoo.modelo.Funcionario;
 
 import java.util.List;
 

@@ -1,18 +1,18 @@
-package br.com.rhmanager.service;
+package rhpoo.serviço;
 
-import br.com.rhmanager.model.Feedback;
-import br.com.rhmanager.model.Funcionario;
-import br.com.rhmanager.util.ValidadorEntrada;
+import rhpoo.modelo.Feedback;
+import rhpoo.modelo.Funcionario;
+import rhpoo.validaçao.ValidadorEntrada;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //classe que controla feedbacks dos funcionario
-public class FeedbackService {
+public class ServicoFeedback {
     private List<Feedback> feedbacks;
     private int proximoId;
 
-    public FeedbackService() {
+    public ServicoFeedback() {
         this.feedbacks = new ArrayList<>();
         this.proximoId = 1;
     }

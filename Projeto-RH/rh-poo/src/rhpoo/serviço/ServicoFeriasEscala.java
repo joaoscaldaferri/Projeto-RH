@@ -1,18 +1,18 @@
-package br.com.rhmanager.service;
+package rhpoo.serviço;
 
-import br.com.rhmanager.model.FeriasEscala;
-import br.com.rhmanager.model.Funcionario;
-import br.com.rhmanager.util.ValidadorEntrada;
+import rhpoo.modelo.FeriasEscala;
+import rhpoo.modelo.Funcionario;
+import rhpoo.validaçao.ValidadorEntrada;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //classe que controlaa ferias e escalas
-public class FeriasEscalaService {
+public class ServicoFeriasEscala {
     private List<FeriasEscala> feriasEscalas;
     private int proximoId;
 
-    public FeriasEscalaService() {
+    public ServicoFeriasEscala() {
         this.feriasEscalas = new ArrayList<>();
         this.proximoId = 1;
     }

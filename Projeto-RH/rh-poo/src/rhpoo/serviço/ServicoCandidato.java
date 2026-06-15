@@ -1,18 +1,18 @@
-package br.com.rhmanager.service;
+package rhpoo.serviço;
 
-import br.com.rhmanager.model.Candidato;
-import br.com.rhmanager.util.ValidadorCPF;
-import br.com.rhmanager.util.ValidadorEntrada;
+import rhpoo.modelo.Candidato;
+import rhpoo.validaçao.ValidadorCPF;
+import rhpoo.validaçao.ValidadorEntrada;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //classe que controla as operaçoes relacionadas aos candidatos
-public class CandidatoService {
+public class ServicoCandidato {
     private List<Candidato> candidatos;
     private int proximoId;
 
-    public CandidatoService() {
+    public ServicoCandidato() {
         this.candidatos = new ArrayList<>();
         this.proximoId = 1;
     }

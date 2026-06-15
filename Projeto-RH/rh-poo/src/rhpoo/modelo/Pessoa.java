@@ -1,4 +1,4 @@
-package br.com.rhmanager.model;
+package rhpoo.modelo;
 
 public abstract class Pessoa {
     private int id;

@@ -1,16 +1,16 @@
-package br.com.rhmanager;
+package rhpoo;
 
-import br.com.rhmanager.model.Candidato;
-import br.com.rhmanager.model.Entrevista;
-import br.com.rhmanager.model.Feedback;
-import br.com.rhmanager.model.FeriasEscala;
-import br.com.rhmanager.model.Funcionario;
-import br.com.rhmanager.service.CandidatoService;
-import br.com.rhmanager.service.EntrevistaService;
-import br.com.rhmanager.service.ExportadorService;
-import br.com.rhmanager.service.FeedbackService;
-import br.com.rhmanager.service.FeriasEscalaService;
-import br.com.rhmanager.service.FuncionarioService;
+import rhpoo.modelo.Candidato;
+import rhpoo.modelo.Entrevista;
+import rhpoo.modelo.Feedback;
+import rhpoo.modelo.FeriasEscala;
+import rhpoo.modelo.Funcionario;
+import rhpoo.serviço.ServicoCandidato;
+import rhpoo.serviço.ServicoEntrevista;
+import rhpoo.serviço.ServicoExportador;
+import rhpoo.serviço.ServicoFeedback;
+import rhpoo.serviço.ServicoFeriasEscala;
+import rhpoo.serviço.ServicoFuncionario;
 
 import java.util.List;
 import java.util.Scanner;
@@ -18,12 +18,12 @@ import java.util.Scanner;
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
 
-    private static CandidatoService candidatoService = new CandidatoService();
-    private static FuncionarioService funcionarioService = new FuncionarioService();
-    private static FeriasEscalaService feriasEscalaService = new FeriasEscalaService();
-    private static EntrevistaService entrevistaService = new EntrevistaService();
-    private static FeedbackService feedbackService = new FeedbackService();
-    private static ExportadorService exportadorService = new ExportadorService();
+    private static ServicoCandidato ServicoCandidato = new ServicoCandidato();
+    private static ServicoFuncionario ServicoFuncionario = new ServicoFuncionario();
+    private static ServicoFeriasEscala servicoFeriasEscala = new ServicoFeriasEscala();
+    private static ServicoEntrevista servicoEntrevista = new ServicoEntrevista();
+    private static ServicoFeedback servicoFeedback = new ServicoFeedback();
+    private static ServicoExportador servicoExportador = new ServicoExportador();
 
     public static void main(String[] args) {
         int opcao;
@@ -159,7 +159,7 @@ public class Main {
         System.out.print("Resumo profissional: ");
         String resumoProfissional = scanner.nextLine();
 
-        boolean cadastrado = candidatoService.cadastrarCandidato(
+        boolean cadastrado = ServicoCandidato.cadastrarCandidato(
                 nome, cpf, email, telefone, areaAtuacao, anosExperiencia, formacao, resumoProfissional
         );
         if (cadastrado) {
@@ -171,11 +171,11 @@ public class Main {
     private static void listarCandidatos() {
         System.out.println("\n     LISTA DE CANDIDATOS      ");
 
-        if (candidatoService.listarTodos().isEmpty()) {
+        if (ServicoCandidato.listarTodos().isEmpty()) {
             System.out.println("Nenhum candidato cadastrado.");
             return;
         }
-        for (Candidato candidato : candidatoService.listarTodos()) {
+        for (Candidato candidato : ServicoCandidato.listarTodos()) {
             System.out.println(candidato.exibirResumo());
         }
     }
@@ -183,7 +183,7 @@ public class Main {
         System.out.print("\nDigite o ID do candidato: ");
         int id = lerInteiro();
 
-        Candidato candidato = candidatoService.buscarPorId(id);
+        Candidato candidato = ServicoCandidato.buscarPorId(id);
 
         if (candidato != null) {
             System.out.println(candidato.exibirResumo());
@@ -195,7 +195,7 @@ public class Main {
         System.out.print("\nDigite o nome do candidato: ");
         String nome = scanner.nextLine();
 
-        List<Candidato> candidatos = candidatoService.buscarPorNome(nome);
+        List<Candidato> candidatos = ServicoCandidato.buscarPorNome(nome);
 
         if (candidatos.isEmpty()) {
             System.out.println("Nenhum candidato encontrado.");
@@ -210,7 +210,7 @@ public class Main {
         System.out.print("\nDigite a área de atuação: ");
         String area = scanner.nextLine();
 
-        List<Candidato> candidatos = candidatoService.buscarPorArea(area);
+        List<Candidato> candidatos = ServicoCandidato.buscarPorArea(area);
 
         if (candidatos.isEmpty()) {
             System.out.println("Nenhum candidato encontrado nessa área.");
@@ -225,7 +225,7 @@ public class Main {
         System.out.print("\nDigite os anos mínimos de experiência: ");
         int anos = lerInteiro();
 
-        List<Candidato> candidatos = candidatoService.buscarPorExperiencia(anos);
+        List<Candidato> candidatos = ServicoCandidato.buscarPorExperiencia(anos);
 
         if (candidatos.isEmpty()) {
             System.out.println("Nenhum candidato encontrado com essa experiência.");
@@ -239,7 +239,7 @@ public class Main {
     private static void atualizarCandidato() {
         System.out.print("\nDigite o ID do candidato que deseja atualizar: ");
         int id = lerInteiro();
-        Candidato candidato = candidatoService.buscarPorId(id);
+        Candidato candidato = ServicoCandidato.buscarPorId(id);
         if (candidato == null) {
             System.out.println("Candidato não encontrado.");
             return;
@@ -266,7 +266,7 @@ public class Main {
         System.out.print("Novo resumo profissional: ");
         String resumoProfissional = scanner.nextLine();
 
-        boolean atualizado = candidatoService.atualizarCandidato(
+        boolean atualizado = ServicoCandidato.atualizarCandidato(
                 id, nome, email, telefone, areaAtuacao, anosExperiencia, formacao, resumoProfissional
         );
         if (atualizado) {
@@ -278,7 +278,7 @@ public class Main {
     private static void excluirCandidato() {
         System.out.print("\nDigite o ID do candidato que deseja excluir: ");
         int id = lerInteiro();
-        boolean excluido = candidatoService.excluirCandidato(id);
+        boolean excluido = ServicoCandidato.excluirCandidato(id);
         if (excluido) {
             System.out.println("Candidato excluído com sucesso!");
         } else {
@@ -354,7 +354,7 @@ public class Main {
         System.out.print("Turno: ");
         String turno = scanner.nextLine();
 
-        boolean cadastrado = funcionarioService.cadastrarFuncionario(
+        boolean cadastrado = ServicoFuncionario.cadastrarFuncionario(
                 nome, cpf, email, telefone, cargo, setor, turno
         );
         if (cadastrado) {
@@ -367,11 +367,11 @@ public class Main {
     private static void listarFuncionarios() {
         System.out.println("\n      LISTA DE FUNCIONÁRIOS      ");
 
-        if (funcionarioService.listarTodos().isEmpty()) {
+        if (ServicoFuncionario.listarTodos().isEmpty()) {
             System.out.println("Nenhum funcionário cadastrado.");
             return;
         }
-        for (Funcionario funcionario : funcionarioService.listarTodos()) {
+        for (Funcionario funcionario : ServicoFuncionario.listarTodos()) {
             System.out.println(funcionario.exibirResumo());
         }
     }
@@ -379,7 +379,7 @@ public class Main {
     private static void buscarFuncionarioPorId() {
         System.out.print("\nDigite o ID do funcionário: ");
         int id = lerInteiro();
-        Funcionario funcionario = funcionarioService.buscarPorId(id);
+        Funcionario funcionario = ServicoFuncionario.buscarPorId(id);
         if (funcionario != null) {
             System.out.println(funcionario.exibirResumo());
         } else {
@@ -391,7 +391,7 @@ public class Main {
         System.out.print("\nDigite o nome do funcionário: ");
         String nome = scanner.nextLine();
 
-        List<Funcionario> funcionarios = funcionarioService.buscarPorNome(nome);
+        List<Funcionario> funcionarios = ServicoFuncionario.buscarPorNome(nome);
 
         if (funcionarios.isEmpty()) {
             System.out.println("Nenhum funcionário encontrado.");
@@ -406,7 +406,7 @@ public class Main {
         System.out.print("\nDigite o ID do funcionário que deseja atualizar: ");
         int id = lerInteiro();
 
-        Funcionario funcionario = funcionarioService.buscarPorId(id);
+        Funcionario funcionario = ServicoFuncionario.buscarPorId(id);
 
         if (funcionario == null) {
             System.out.println("Funcionário não encontrado.");
@@ -431,7 +431,7 @@ public class Main {
         System.out.print("Novo turno: ");
         String turno = scanner.nextLine();
 
-        boolean atualizado = funcionarioService.atualizarFuncionario(
+        boolean atualizado = ServicoFuncionario.atualizarFuncionario(
                 id, nome, email, telefone, cargo, setor, turno
         );
 
@@ -446,7 +446,7 @@ public class Main {
         System.out.print("\nDigite o ID do funcionário que deseja excluir: ");
         int id = lerInteiro();
 
-        boolean excluido = funcionarioService.excluirFuncionario(id);
+        boolean excluido = ServicoFuncionario.excluirFuncionario(id);
 
         if (excluido) {
             System.out.println("Funcionário excluído com sucesso!");
@@ -507,7 +507,7 @@ public class Main {
         System.out.print("Digite o ID do funcionário: ");
         int idFuncionario = lerInteiro();
 
-        Funcionario funcionario = funcionarioService.buscarPorId(idFuncionario);
+        Funcionario funcionario = ServicoFuncionario.buscarPorId(idFuncionario);
 
         if (funcionario == null) {
             System.out.println("Funcionário não encontrado.");
@@ -523,7 +523,7 @@ public class Main {
         System.out.print("Turno da escala: ");
         String turno = scanner.nextLine();
 
-        boolean cadastrado = feriasEscalaService.cadastrarFeriasEscala(
+        boolean cadastrado = servicoFeriasEscala.cadastrarFeriasEscala(
                 funcionario, dataInicio, dataFim, turno
         );
 
@@ -537,11 +537,11 @@ public class Main {
     private static void listarFeriasEscalas() {
         System.out.println("\n      LISTA DE FÉRIAS E ESCALAS      ");
 
-        if (feriasEscalaService.listarTodos().isEmpty()) {
+        if (servicoFeriasEscala.listarTodos().isEmpty()) {
             System.out.println("Nenhum registro cadastrado.");
             return;
         }
-        for (FeriasEscala feriasEscala : feriasEscalaService.listarTodos()) {
+        for (FeriasEscala feriasEscala : servicoFeriasEscala.listarTodos()) {
             System.out.println(feriasEscala.exibirResumo());
         }
     }
@@ -549,7 +549,7 @@ public class Main {
     private static void buscarFeriasEscalaPorId() {
         System.out.print("\nDigite o ID do registro: ");
         int id = lerInteiro();
-        FeriasEscala feriasEscala = feriasEscalaService.buscarPorId(id);
+        FeriasEscala feriasEscala = servicoFeriasEscala.buscarPorId(id);
         if (feriasEscala != null) {
             System.out.println(feriasEscala.exibirResumo());
         } else {
@@ -561,7 +561,7 @@ public class Main {
         System.out.print("\nDigite o nome do funcionário: ");
         String nome = scanner.nextLine();
 
-        List<FeriasEscala> registros = feriasEscalaService.buscarPorFuncionario(nome);
+        List<FeriasEscala> registros = servicoFeriasEscala.buscarPorFuncionario(nome);
         if (registros.isEmpty()) {
             System.out.println("Nenhum registro encontrado.");
             return;
@@ -574,7 +574,7 @@ public class Main {
     private static void atualizarFeriasEscala() {
         System.out.print("\nDigite o ID do registro que deseja atualizar: ");
         int id = lerInteiro();
-        FeriasEscala feriasEscala = feriasEscalaService.buscarPorId(id);
+        FeriasEscala feriasEscala = servicoFeriasEscala.buscarPorId(id);
         if (feriasEscala == null) {
             System.out.println("Registro não encontrado.");
             return;
@@ -588,7 +588,7 @@ public class Main {
         System.out.print("Novo turno da escala: ");
         String turno = scanner.nextLine();
 
-        boolean atualizado = feriasEscalaService.atualizarFeriasEscala(id, dataInicio, dataFim, turno);
+        boolean atualizado = servicoFeriasEscala.atualizarFeriasEscala(id, dataInicio, dataFim, turno);
         if (atualizado) {
             System.out.println("Registro atualizado com sucesso!");
         } else {
@@ -600,7 +600,7 @@ public class Main {
         System.out.print("\nDigite o ID do registro que deseja excluir: ");
         int id = lerInteiro();
 
-        boolean excluido = feriasEscalaService.excluirFeriasEscala(id);
+        boolean excluido = servicoFeriasEscala.excluirFeriasEscala(id);
 
         if (excluido) {
             System.out.println("Registro excluído com sucesso!");
@@ -665,7 +665,7 @@ public class Main {
         System.out.print("Digite o ID do candidato: ");
         int idCandidato = lerInteiro();
 
-        Candidato candidato = candidatoService.buscarPorId(idCandidato);
+        Candidato candidato = ServicoCandidato.buscarPorId(idCandidato);
         if (candidato == null) {
             System.out.println("Candidato não encontrado.");
             return;
@@ -682,7 +682,7 @@ public class Main {
         System.out.print("Horário da entrevista (hh:mm): ");
         String horario = scanner.nextLine();
 
-        boolean cadastrado = entrevistaService.cadastrarEntrevista(
+        boolean cadastrado = servicoEntrevista.cadastrarEntrevista(
                 candidato, cargo, urgencia, data, horario
         );
         if (cadastrado) {
@@ -695,11 +695,11 @@ public class Main {
     private static void listarEntrevistas() {
         System.out.println("\n      LISTA DE ENTREVISTAS      ");
 
-        if (entrevistaService.listarTodos().isEmpty()) {
+        if (servicoEntrevista.listarTodos().isEmpty()) {
             System.out.println("Nenhuma entrevista cadastrada.");
             return;
         }
-        for (Entrevista entrevista : entrevistaService.listarTodos()) {
+        for (Entrevista entrevista : servicoEntrevista.listarTodos()) {
             System.out.println(entrevista.exibirResumo());
         }
     }
@@ -707,11 +707,11 @@ public class Main {
     private static void listarEntrevistasPorPrioridade() {
         System.out.println("\n      ENTREVISTAS POR PRIORIDADE      ");
 
-        if (entrevistaService.listarPorPrioridade().isEmpty()) {
+        if (servicoEntrevista.listarPorPrioridade().isEmpty()) {
             System.out.println("Nenhuma entrevista cadastrada.");
             return;
         }
-        for (Entrevista entrevista : entrevistaService.listarPorPrioridade()) {
+        for (Entrevista entrevista : servicoEntrevista.listarPorPrioridade()) {
             System.out.println(entrevista.exibirResumo());
         }
     }
@@ -720,7 +720,7 @@ public class Main {
         System.out.print("\nDigite o ID da entrevista: ");
         int id = lerInteiro();
 
-        Entrevista entrevista = entrevistaService.buscarPorId(id);
+        Entrevista entrevista = servicoEntrevista.buscarPorId(id);
 
         if (entrevista != null) {
             System.out.println(entrevista.exibirResumo());
@@ -733,7 +733,7 @@ public class Main {
         System.out.print("\nDigite o nome do candidato: ");
         String nome = scanner.nextLine();
 
-        List<Entrevista> entrevistas = entrevistaService.buscarPorCandidato(nome);
+        List<Entrevista> entrevistas = servicoEntrevista.buscarPorCandidato(nome);
 
         if (entrevistas.isEmpty()) {
             System.out.println("Nenhuma entrevista encontrada.");
@@ -748,7 +748,7 @@ public class Main {
         System.out.print("\nDigite o ID da entrevista que deseja atualizar: ");
         int id = lerInteiro();
 
-        Entrevista entrevista = entrevistaService.buscarPorId(id);
+        Entrevista entrevista = servicoEntrevista.buscarPorId(id);
 
         if (entrevista == null) {
             System.out.println("Entrevista não encontrada.");
@@ -767,7 +767,7 @@ public class Main {
         System.out.print("Novo horário (hh:mm): ");
         String horario = scanner.nextLine();
 
-        boolean atualizado = entrevistaService.atualizarEntrevista(id, cargo, urgencia, data, horario);
+        boolean atualizado = servicoEntrevista.atualizarEntrevista(id, cargo, urgencia, data, horario);
         if (atualizado) {
             System.out.println("Entrevista atualizada com sucesso!");
         } else {
@@ -779,7 +779,7 @@ public class Main {
         System.out.print("\nDigite o ID da entrevista que deseja excluir: ");
         int id = lerInteiro();
 
-        boolean excluido = entrevistaService.excluirEntrevista(id);
+        boolean excluido = servicoEntrevista.excluirEntrevista(id);
 
         if (excluido) {
             System.out.println("Entrevista excluída com sucesso!");
@@ -840,7 +840,7 @@ public class Main {
         System.out.print("Digite o ID do funcionário: ");
         int idFuncionario = lerInteiro();
 
-        Funcionario funcionario = funcionarioService.buscarPorId(idFuncionario);
+        Funcionario funcionario = ServicoFuncionario.buscarPorId(idFuncionario);
 
         if (funcionario == null) {
             System.out.println("Funcionário não encontrado.");
@@ -859,7 +859,7 @@ public class Main {
         System.out.print("Data do feedback (dd/mm/aaaa): ");
         String data = scanner.nextLine();
 
-        boolean cadastrado = feedbackService.cadastrarFeedback(
+        boolean cadastrado = servicoFeedback.cadastrarFeedback(
                 funcionario, avaliador, comentario, nota, data
         );
         if (cadastrado) {
@@ -872,11 +872,11 @@ public class Main {
     private static void listarFeedbacks() {
         System.out.println("\n      LISTA DE FEEDBACKS      ");
 
-        if (feedbackService.listarTodos().isEmpty()) {
+        if (servicoFeedback.listarTodos().isEmpty()) {
             System.out.println("Nenhum feedback cadastrado.");
             return;
         }
-        for (Feedback feedback : feedbackService.listarTodos()) {
+        for (Feedback feedback : servicoFeedback.listarTodos()) {
             System.out.println(feedback.exibirResumo());
         }
     }
@@ -885,7 +885,7 @@ public class Main {
         System.out.print("\nDigite o ID do feedback: ");
         int id = lerInteiro();
 
-        Feedback feedback = feedbackService.buscarPorId(id);
+        Feedback feedback = servicoFeedback.buscarPorId(id);
 
         if (feedback != null) {
             System.out.println(feedback.exibirResumo());
@@ -898,7 +898,7 @@ public class Main {
         System.out.print("\nDigite o nome do funcionário: ");
         String nome = scanner.nextLine();
 
-        List<Feedback> feedbacks = feedbackService.buscarPorFuncionario(nome);
+        List<Feedback> feedbacks = servicoFeedback.buscarPorFuncionario(nome);
 
         if (feedbacks.isEmpty()) {
             System.out.println("Nenhum feedback encontrado.");
@@ -913,7 +913,7 @@ public class Main {
         System.out.print("\nDigite o ID do feedback que deseja atualizar: ");
         int id = lerInteiro();
 
-        Feedback feedback = feedbackService.buscarPorId(id);
+        Feedback feedback = servicoFeedback.buscarPorId(id);
 
         if (feedback == null) {
             System.out.println("Feedback não encontrado.");
@@ -932,7 +932,7 @@ public class Main {
         System.out.print("Nova data (dd/mm/aaaa): ");
         String data = scanner.nextLine();
 
-        boolean atualizado = feedbackService.atualizarFeedback(id, avaliador, comentario, nota, data);
+        boolean atualizado = servicoFeedback.atualizarFeedback(id, avaliador, comentario, nota, data);
         if (atualizado) {
             System.out.println("Feedback atualizado com sucesso!");
         } else {
@@ -944,7 +944,7 @@ public class Main {
         System.out.print("\nDigite o ID do feedback que deseja excluir: ");
         int id = lerInteiro();
 
-        boolean excluido = feedbackService.excluirFeedback(id);
+        boolean excluido = servicoFeedback.excluirFeedback(id);
         if (excluido) {
             System.out.println("Feedback excluído com sucesso!");
         } else {
@@ -957,21 +957,21 @@ public class Main {
     private static void gerarRelatorios() {
         System.out.println("\n      RELATÓRIOS GERAIS DO SISTEMA      ");
 
-        candidatoService.gerarRelatorioConsole();
-        funcionarioService.gerarRelatorioConsole();
-        feriasEscalaService.gerarRelatorioConsole();
-        entrevistaService.gerarRelatorioConsole();
-        feedbackService.gerarRelatorioConsole();
+        ServicoCandidato.gerarRelatorioConsole();
+        ServicoFuncionario.gerarRelatorioConsole();
+        servicoFeriasEscala.gerarRelatorioConsole();
+        servicoEntrevista.gerarRelatorioConsole();
+        servicoFeedback.gerarRelatorioConsole();
     }
 
     private static void exportarDados() {
-        boolean exportado = exportadorService.exportarDados(
+        boolean exportado = servicoExportador.exportarDados(
                 "relatorio_rh.txt",
-                candidatoService.listarTodos(),
-                funcionarioService.listarTodos(),
-                feriasEscalaService.listarTodos(),
-                entrevistaService.listarTodos(),
-                feedbackService.listarTodos()
+                ServicoCandidato.listarTodos(),
+                ServicoFuncionario.listarTodos(),
+                servicoFeriasEscala.listarTodos(),
+                servicoEntrevista.listarTodos(),
+                servicoFeedback.listarTodos()
         );
         if (exportado) {
             System.out.println("Arquivo relatorio_rh.txt exportado com sucesso!");

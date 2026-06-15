@@ -1,19 +1,19 @@
-package br.com.rhmanager.service;
+package rhpoo.serviço;
 
-import br.com.rhmanager.model.Candidato;
-import br.com.rhmanager.model.Entrevista;
-import br.com.rhmanager.util.ValidadorEntrada;
+import rhpoo.modelo.Candidato;
+import rhpoo.modelo.Entrevista;
+import rhpoo.validaçao.ValidadorEntrada;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 //classe que controla entrevista de candidatos
-public class EntrevistaService {
+public class ServicoEntrevista {
     private List<Entrevista> entrevistas;
     private int proximoId;
 
-    public EntrevistaService() {
+    public ServicoEntrevista() {
         this.entrevistas = new ArrayList<>();
         this.proximoId = 1;
     }

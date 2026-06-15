@@ -1,4 +1,4 @@
-package br.com.rhmanager.model;
+package rhpoo.modelo;
 
 //classe que representar a entrevista
 //ordenar as entrevistas por prioridade

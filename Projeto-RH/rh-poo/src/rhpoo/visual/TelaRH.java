@@ -1,25 +1,27 @@
-package br.com.rhmanager.view;
+package rhpoo.visual;
 
-import br.com.rhmanager.model.*;
-import br.com.rhmanager.service.*;
+import rhpoo.modelo.*;
+import rhpoo.serviço.*;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import rhpoo.modelo.*;
+import rhpoo.serviço.*;
 
 import java.util.List;
 import java.util.Optional;
 
-public class TelaPrincipal {
+public class TelaRH {
 
-    private final CandidatoService candidatoService = new CandidatoService();
-    private final FuncionarioService funcionarioService = new FuncionarioService();
-    private final FeriasEscalaService feriasEscalaService = new FeriasEscalaService();
-    private final EntrevistaService entrevistaService = new EntrevistaService();
-    private final FeedbackService feedbackService = new FeedbackService();
-    private final ExportadorService exportadorService = new ExportadorService();
+    private final ServicoCandidato servicoCandidato = new ServicoCandidato();
+    private final ServicoFuncionario servicoFuncionario = new ServicoFuncionario();
+    private final ServicoFeriasEscala servicoFeriasEscala = new ServicoFeriasEscala();
+    private final ServicoEntrevista servicoEntrevista = new ServicoEntrevista();
+    private final ServicoFeedback servicoFeedback = new ServicoFeedback();
+    private final ServicoExportador servicoExportador = new ServicoExportador();
 
     private final TextArea areaResultado = new TextArea();
 
@@ -105,7 +107,7 @@ public class TelaPrincipal {
 
         resultado.ifPresent(dados -> {
             try {
-                boolean ok = candidatoService.cadastrarCandidato(
+                boolean ok = servicoCandidato.cadastrarCandidato(
                         dados.nome, dados.cpf, dados.email, dados.telefone,
                         dados.area, Integer.parseInt(dados.experiencia),
                         dados.formacao, dados.resumo
@@ -120,7 +122,7 @@ public class TelaPrincipal {
     }
 
     private void listarCandidatos() {
-        List<Candidato> candidatos = candidatoService.listarTodos();
+        List<Candidato> candidatos = servicoCandidato.listarTodos();
 
         if (candidatos.isEmpty()) {
             mostrar("Nenhum candidato cadastrado.");
@@ -149,24 +151,24 @@ public class TelaPrincipal {
         try {
             switch (tipo.get()) {
                 case "ID":
-                    Candidato candidato = candidatoService.buscarPorId(Integer.parseInt(valor.get()));
+                    Candidato candidato = servicoCandidato.buscarPorId(Integer.parseInt(valor.get()));
                     if (candidato != null) texto.append(candidato.exibirResumo());
                     break;
 
                 case "Nome":
-                    for (Candidato c : candidatoService.buscarPorNome(valor.get())) {
+                    for (Candidato c : servicoCandidato.buscarPorNome(valor.get())) {
                         texto.append(c.exibirResumo()).append("\n");
                     }
                     break;
 
                 case "Área":
-                    for (Candidato c : candidatoService.buscarPorArea(valor.get())) {
+                    for (Candidato c : servicoCandidato.buscarPorArea(valor.get())) {
                         texto.append(c.exibirResumo()).append("\n");
                     }
                     break;
 
                 case "Experiência mínima":
-                    for (Candidato c : candidatoService.buscarPorExperiencia(Integer.parseInt(valor.get()))) {
+                    for (Candidato c : servicoCandidato.buscarPorExperiencia(Integer.parseInt(valor.get()))) {
                         texto.append(c.exibirResumo()).append("\n");
                     }
                     break;
@@ -186,7 +188,7 @@ public class TelaPrincipal {
         if (idTexto.isEmpty()) return;
         try {
             int id = Integer.parseInt(idTexto.get());
-            Candidato candidato = candidatoService.buscarPorId(id);
+            Candidato candidato = servicoCandidato.buscarPorId(id);
 
             if (candidato == null) {
                 mostrar("Candidato não encontrado.");
@@ -202,7 +204,7 @@ public class TelaPrincipal {
             Optional<CandidatoDados> resultado = dialog.showAndWait();
             resultado.ifPresent(dados -> {
                 try {
-                    boolean ok = candidatoService.atualizarCandidato(
+                    boolean ok = servicoCandidato.atualizarCandidato(
                             id, dados.nome, dados.email, dados.telefone,
                             dados.area, Integer.parseInt(dados.experiencia),
                             dados.formacao, dados.resumo
@@ -225,7 +227,7 @@ public class TelaPrincipal {
         Optional<String> valor = entrada.showAndWait();
         if (valor.isEmpty()) return;
         try {
-            boolean ok = candidatoService.excluirCandidato(Integer.parseInt(valor.get()));
+            boolean ok = servicoCandidato.excluirCandidato(Integer.parseInt(valor.get()));
             mostrar(ok ? "Candidato excluído com sucesso!" : "Candidato não encontrado.");
         } catch (NumberFormatException erro) {
             mostrar("Erro: ID tem que ser número.");
@@ -300,7 +302,7 @@ public class TelaPrincipal {
         Optional<FuncionarioDados> resultado = dialog.showAndWait();
 
         resultado.ifPresent(dados -> {
-            boolean ok = funcionarioService.cadastrarFuncionario(
+            boolean ok = servicoFuncionario.cadastrarFuncionario(
                     dados.nome, dados.cpf, dados.email, dados.telefone,
                     dados.cargo, dados.setor, dados.turno
             );
@@ -310,7 +312,7 @@ public class TelaPrincipal {
     }
 
     private void listarFuncionarios() {
-        List<Funcionario> funcionarios = funcionarioService.listarTodos();
+        List<Funcionario> funcionarios = servicoFuncionario.listarTodos();
 
         if (funcionarios.isEmpty()) {
             mostrar("Nenhum funcionário cadastrado.");
@@ -341,10 +343,10 @@ public class TelaPrincipal {
         StringBuilder texto = new StringBuilder();
         try {
             if (tipo.get().equals("ID")) {
-                Funcionario funcionario = funcionarioService.buscarPorId(Integer.parseInt(valor.get()));
+                Funcionario funcionario = servicoFuncionario.buscarPorId(Integer.parseInt(valor.get()));
                 if (funcionario != null) texto.append(funcionario.exibirResumo());
             } else {
-                for (Funcionario f : funcionarioService.buscarPorNome(valor.get())) {
+                for (Funcionario f : servicoFuncionario.buscarPorNome(valor.get())) {
                     texto.append(f.exibirResumo()).append("\n");
                 }
             }
@@ -363,7 +365,7 @@ public class TelaPrincipal {
         if (idTexto.isEmpty()) return;
         try {
             int id = Integer.parseInt(idTexto.get());
-            Funcionario funcionario = funcionarioService.buscarPorId(id);
+            Funcionario funcionario = servicoFuncionario.buscarPorId(id);
             if (funcionario == null) {
                 mostrar("Funcionário não encontrado.");
                 return;
@@ -379,7 +381,7 @@ public class TelaPrincipal {
             Optional<FuncionarioDados> resultado = dialog.showAndWait();
 
             resultado.ifPresent(dados -> {
-                boolean ok = funcionarioService.atualizarFuncionario(
+                boolean ok = servicoFuncionario.atualizarFuncionario(
                         id, dados.nome, dados.email, dados.telefone,
                         dados.cargo, dados.setor, dados.turno
                 );
@@ -399,7 +401,7 @@ public class TelaPrincipal {
         Optional<String> valor = entrada.showAndWait();
         if (valor.isEmpty()) return;
         try {
-            boolean ok = funcionarioService.excluirFuncionario(Integer.parseInt(valor.get()));
+            boolean ok = servicoFuncionario.excluirFuncionario(Integer.parseInt(valor.get()));
             mostrar(ok ? "Funcionário excluído com sucesso!" : "Funcionário não encontrado.");
         } catch (NumberFormatException erro) {
             mostrar("Erro: ID deve ser número.");
@@ -469,7 +471,7 @@ public class TelaPrincipal {
     }
 
     private void cadastrarFeriasEscala() {
-        if (funcionarioService.listarTodos().isEmpty()) {
+        if (servicoFuncionario.listarTodos().isEmpty()) {
             mostrar("Cadastre um funcionário antes de cadastrar ferias e escalas.");
             return;
         }
@@ -481,7 +483,7 @@ public class TelaPrincipal {
         Optional<String> idFuncionarioTexto = idFuncionarioDialog.showAndWait();
         if (idFuncionarioTexto.isEmpty()) return;
         try {
-            Funcionario funcionario = funcionarioService.buscarPorId(Integer.parseInt(idFuncionarioTexto.get()));
+            Funcionario funcionario = servicoFuncionario.buscarPorId(Integer.parseInt(idFuncionarioTexto.get()));
             if (funcionario == null) {
                 mostrar("Funcionário não encontrado.");
                 return;
@@ -505,7 +507,7 @@ public class TelaPrincipal {
             Optional<String> turno = turnoDialog.showAndWait();
             if (turno.isEmpty()) return;
 
-            boolean ok = feriasEscalaService.cadastrarFeriasEscala(funcionario, inicio.get(), fim.get(), turno.get());
+            boolean ok = servicoFeriasEscala.cadastrarFeriasEscala(funcionario, inicio.get(), fim.get(), turno.get());
             mostrar(ok ? "Férias e escala cadastradas com sucesso!" :
                     "Erro ao cadastrar. Use  datas no formato dd/mm/aaaa.");
         } catch (NumberFormatException erro) {
@@ -514,7 +516,7 @@ public class TelaPrincipal {
     }
 
     private void listarFeriasEscalas() {
-        List<FeriasEscala> lista = feriasEscalaService.listarTodos();
+        List<FeriasEscala> lista = servicoFeriasEscala.listarTodos();
 
         if (lista.isEmpty()) {
             mostrar("Nenhum registro de férias e escala cadastrado.");
@@ -536,7 +538,7 @@ public class TelaPrincipal {
         Optional<String> nome = entrada.showAndWait();
         if (nome.isEmpty()) return;
 
-        List<FeriasEscala> lista = feriasEscalaService.buscarPorFuncionario(nome.get());
+        List<FeriasEscala> lista = servicoFeriasEscala.buscarPorFuncionario(nome.get());
 
         if (lista.isEmpty()) {
             mostrar("Nenhum registro encontrado.");
@@ -579,7 +581,7 @@ public class TelaPrincipal {
             Optional<String> turno = turnoDialog.showAndWait();
             if (turno.isEmpty()) return;
 
-            boolean ok = feriasEscalaService.atualizarFeriasEscala(id, inicio.get(), fim.get(), turno.get());
+            boolean ok = servicoFeriasEscala.atualizarFeriasEscala(id, inicio.get(), fim.get(), turno.get());
             mostrar(ok ? "Registro atualizado com sucesso!" : "Erro ao atualizar registro.");
         } catch (NumberFormatException erro) {
             mostrar("Erro: ID tem que ser número.");
@@ -594,7 +596,7 @@ public class TelaPrincipal {
         Optional<String> valor = entrada.showAndWait();
         if (valor.isEmpty()) return;
         try {
-            boolean ok = feriasEscalaService.excluirFeriasEscala(Integer.parseInt(valor.get()));
+            boolean ok = servicoFeriasEscala.excluirFeriasEscala(Integer.parseInt(valor.get()));
             mostrar(ok ? "Registro excluído com sucesso!" : "Registro não encontrado.");
         } catch (NumberFormatException erro) {
             mostrar("Erro: ID tem que ser número.");
@@ -626,7 +628,7 @@ public class TelaPrincipal {
     }
 
     private void cadastrarEntrevista() {
-        if (candidatoService.listarTodos().isEmpty()) {
+        if (servicoCandidato.listarTodos().isEmpty()) {
             mostrar("Cadastre um candidato antes de agendar entrevistas.");
             return;
         }
@@ -637,7 +639,7 @@ public class TelaPrincipal {
         Optional<String> idCandidato = idDialog.showAndWait();
         if (idCandidato.isEmpty()) return;
         try {
-            Candidato candidato = candidatoService.buscarPorId(Integer.parseInt(idCandidato.get()));
+            Candidato candidato = servicoCandidato.buscarPorId(Integer.parseInt(idCandidato.get()));
             if (candidato == null) {
                 mostrar("Candidato não encontrado.");
                 return;
@@ -667,7 +669,7 @@ public class TelaPrincipal {
             Optional<String> horario = horarioDialog.showAndWait();
             if (horario.isEmpty()) return;
 
-            boolean ok = entrevistaService.cadastrarEntrevista(candidato, cargo.get(),
+            boolean ok = servicoEntrevista.cadastrarEntrevista(candidato, cargo.get(),
                     Integer.parseInt(urgencia.get()), data.get(), horario.get());
 
             mostrar(ok ? "Entrevista cadastrada com sucesso!" :
@@ -678,7 +680,7 @@ public class TelaPrincipal {
     }
 
     private void listarEntrevistas() {
-        List<Entrevista> lista = entrevistaService.listarTodos();
+        List<Entrevista> lista = servicoEntrevista.listarTodos();
 
         if (lista.isEmpty()) {
             mostrar("Nenhuma entrevista cadastrada.");
@@ -692,7 +694,7 @@ public class TelaPrincipal {
     }
 
     private void listarEntrevistasPrioridade() {
-        List<Entrevista> lista = entrevistaService.listarPorPrioridade();
+        List<Entrevista> lista = servicoEntrevista.listarPorPrioridade();
 
         if (lista.isEmpty()) {
             mostrar("Nenhuma entrevista cadastrada.");
@@ -713,7 +715,7 @@ public class TelaPrincipal {
         Optional<String> nome = entrada.showAndWait();
         if (nome.isEmpty()) return;
 
-        List<Entrevista> lista = entrevistaService.buscarPorCandidato(nome.get());
+        List<Entrevista> lista = servicoEntrevista.buscarPorCandidato(nome.get());
 
         if (lista.isEmpty()) {
             mostrar("Nenhuma entrevista encontrada.");
@@ -759,7 +761,7 @@ public class TelaPrincipal {
             Optional<String> horario = horarioDialog.showAndWait();
             if (horario.isEmpty()) return;
 
-            boolean ok = entrevistaService.atualizarEntrevista(id, cargo.get(),
+            boolean ok = servicoEntrevista.atualizarEntrevista(id, cargo.get(),
                     Integer.parseInt(urgencia.get()), data.get(), horario.get());
 
             mostrar(ok ? "Entrevista atualizada com sucesso!" : "Erro ao atualizar entrevista.");
@@ -776,7 +778,7 @@ public class TelaPrincipal {
         Optional<String> valor = entrada.showAndWait();
         if (valor.isEmpty()) return;
         try {
-            boolean ok = entrevistaService.excluirEntrevista(Integer.parseInt(valor.get()));
+            boolean ok = servicoEntrevista.excluirEntrevista(Integer.parseInt(valor.get()));
             mostrar(ok ? "Entrevista excluída com sucesso!" : "Entrevista não encontrada.");
         } catch (NumberFormatException erro) {
             mostrar("Erro: ID tem que ser número.");
@@ -806,7 +808,7 @@ public class TelaPrincipal {
     }
 
     private void cadastrarFeedback() {
-        if (funcionarioService.listarTodos().isEmpty()) {
+        if (servicoFuncionario.listarTodos().isEmpty()) {
             mostrar("Cadastre um funcionário antes de registrar feedback.");
             return;
         }
@@ -817,7 +819,7 @@ public class TelaPrincipal {
         Optional<String> idFuncionario = idDialog.showAndWait();
         if (idFuncionario.isEmpty()) return;
         try {
-            Funcionario funcionario = funcionarioService.buscarPorId(Integer.parseInt(idFuncionario.get()));
+            Funcionario funcionario = servicoFuncionario.buscarPorId(Integer.parseInt(idFuncionario.get()));
             if (funcionario == null) {
                 mostrar("Funcionário não encontrado.");
                 return;
@@ -847,7 +849,7 @@ public class TelaPrincipal {
             Optional<String> data = dataDialog.showAndWait();
             if (data.isEmpty()) return;
 
-            boolean ok = feedbackService.cadastrarFeedback(funcionario, avaliador.get(),
+            boolean ok = servicoFeedback.cadastrarFeedback(funcionario, avaliador.get(),
                     comentario.get(), Integer.parseInt(nota.get()), data.get());
 
             mostrar(ok ? "Feedback cadastrado com sucesso!" :
@@ -858,7 +860,7 @@ public class TelaPrincipal {
     }
 
     private void listarFeedbacks() {
-        List<Feedback> lista = feedbackService.listarTodos();
+        List<Feedback> lista = servicoFeedback.listarTodos();
 
         if (lista.isEmpty()) {
             mostrar("Nenhum feedback cadastrado.");
@@ -879,7 +881,7 @@ public class TelaPrincipal {
         Optional<String> nome = entrada.showAndWait();
         if (nome.isEmpty()) return;
 
-        List<Feedback> lista = feedbackService.buscarPorFuncionario(nome.get());
+        List<Feedback> lista = servicoFeedback.buscarPorFuncionario(nome.get());
 
         if (lista.isEmpty()) {
             mostrar("Nenhum feedback encontrado.");
@@ -925,7 +927,7 @@ public class TelaPrincipal {
             Optional<String> data = dataDialog.showAndWait();
             if (data.isEmpty()) return;
 
-            boolean ok = feedbackService.atualizarFeedback(id, avaliador.get(),
+            boolean ok = servicoFeedback.atualizarFeedback(id, avaliador.get(),
                     comentario.get(), Integer.parseInt(nota.get()), data.get());
 
             mostrar(ok ? "Feedback atualizado com sucesso!" : "Erro ao atualizar feedback.");
@@ -942,7 +944,7 @@ public class TelaPrincipal {
         Optional<String> valor = entrada.showAndWait();
         if (valor.isEmpty()) return;
         try {
-            boolean ok = feedbackService.excluirFeedback(Integer.parseInt(valor.get()));
+            boolean ok = servicoFeedback.excluirFeedback(Integer.parseInt(valor.get()));
             mostrar(ok ? "Feedback excluído com sucesso!" : "Feedback não encontrado.");
         } catch (NumberFormatException erro) {
             mostrar("Erro: ID tem que  ser número.");
@@ -972,47 +974,47 @@ public class TelaPrincipal {
 
         texto.append("      RELATÓRIO GERAL DO SISTEMA DE RH      \n\n");
 
-        texto.append("Total de candidatos: ").append(candidatoService.listarTodos().size()).append("\n");
-        texto.append("Total de funcionários: ").append(funcionarioService.listarTodos().size()).append("\n");
-        texto.append("Total de férias/escalas: ").append(feriasEscalaService.listarTodos().size()).append("\n");
-        texto.append("Total de entrevistas: ").append(entrevistaService.listarTodos().size()).append("\n");
-        texto.append("Total de feedbacks: ").append(feedbackService.listarTodos().size()).append("\n\n");
+        texto.append("Total de candidatos: ").append(servicoCandidato.listarTodos().size()).append("\n");
+        texto.append("Total de funcionários: ").append(servicoFuncionario.listarTodos().size()).append("\n");
+        texto.append("Total de férias/escalas: ").append(servicoFeriasEscala.listarTodos().size()).append("\n");
+        texto.append("Total de entrevistas: ").append(servicoEntrevista.listarTodos().size()).append("\n");
+        texto.append("Total de feedbacks: ").append(servicoFeedback.listarTodos().size()).append("\n\n");
 
         texto.append("      CANDIDATOS:      \n");
-        for (Candidato c : candidatoService.listarTodos()) texto.append(c.exibirResumo()).append("\n");
+        for (Candidato c : servicoCandidato.listarTodos()) texto.append(c.exibirResumo()).append("\n");
 
         texto.append("\n      FUNCIONÁRIOS:      \n");
-        for (Funcionario f : funcionarioService.listarTodos()) texto.append(f.exibirResumo()).append("\n");
+        for (Funcionario f : servicoFuncionario.listarTodos()) texto.append(f.exibirResumo()).append("\n");
 
         texto.append("\n      FÉRIAS E ESCALAS:      \n");
-        for (FeriasEscala f : feriasEscalaService.listarTodos()) texto.append(f.exibirResumo()).append("\n");
+        for (FeriasEscala f : servicoFeriasEscala.listarTodos()) texto.append(f.exibirResumo()).append("\n");
 
         texto.append("\n       ENTREVISTAS POR PRIORIDADE:      \n");
-        for (Entrevista e : entrevistaService.listarPorPrioridade()) texto.append(e.exibirResumo()).append("\n");
+        for (Entrevista e : servicoEntrevista.listarPorPrioridade()) texto.append(e.exibirResumo()).append("\n");
 
         texto.append("\n      FEEDBACKS DE FUNCIONARIOS:     \n");
-        for (Feedback f : feedbackService.listarTodos()) texto.append(f.exibirResumo()).append("\n");
+        for (Feedback f : servicoFeedback.listarTodos()) texto.append(f.exibirResumo()).append("\n");
         mostrar(texto.toString());
     }
 
     private void gerarRelatorioConsole() {
-        candidatoService.gerarRelatorioConsole();
-        funcionarioService.gerarRelatorioConsole();
-        feriasEscalaService.gerarRelatorioConsole();
-        entrevistaService.gerarRelatorioConsole();
-        feedbackService.gerarRelatorioConsole();
+        servicoCandidato.gerarRelatorioConsole();
+        servicoFuncionario.gerarRelatorioConsole();
+        servicoFeriasEscala.gerarRelatorioConsole();
+        servicoEntrevista.gerarRelatorioConsole();
+        servicoFeedback.gerarRelatorioConsole();
 
         mostrar("Relatórios impressos no console.");
     }
 
     private void exportarTxt() {
-        boolean ok = exportadorService.exportarDados(
+        boolean ok = servicoExportador.exportarDados(
                 "relatorio_rh_interface.txt",
-                candidatoService.listarTodos(),
-                funcionarioService.listarTodos(),
-                feriasEscalaService.listarTodos(),
-                entrevistaService.listarTodos(),
-                feedbackService.listarTodos()
+                servicoCandidato.listarTodos(),
+                servicoFuncionario.listarTodos(),
+                servicoFeriasEscala.listarTodos(),
+                servicoEntrevista.listarTodos(),
+                servicoFeedback.listarTodos()
         );
 
         mostrar(ok ? "Arquivo relatorio_rh_interface.txt exportado com sucesso!" : "Erro ao exportar arquivo.");

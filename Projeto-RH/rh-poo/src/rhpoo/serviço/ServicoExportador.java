@@ -1,10 +1,10 @@
-package br.com.rhmanager.service;
+package rhpoo.serviço;
 
-import br.com.rhmanager.model.Candidato;
-import br.com.rhmanager.model.Entrevista;
-import br.com.rhmanager.model.Feedback;
-import br.com.rhmanager.model.FeriasEscala;
-import br.com.rhmanager.model.Funcionario;
+import rhpoo.modelo.Candidato;
+import rhpoo.modelo.Entrevista;
+import rhpoo.modelo.Feedback;
+import rhpoo.modelo.FeriasEscala;
+import rhpoo.modelo.Funcionario;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 //classe que exporta dados para arquivo de texto(.txt)
-public class ExportadorService {
+public class ServicoExportador {
 
     public boolean exportarDados(String nomeArquivo,
                                  List<Candidato> candidatos,

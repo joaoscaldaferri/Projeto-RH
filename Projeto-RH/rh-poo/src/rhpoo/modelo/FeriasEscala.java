@@ -1,4 +1,4 @@
-package br.com.rhmanager.model;
+package rhpoo.modelo;
 
 //classe que representar as férias e a escala
 public class FeriasEscala {

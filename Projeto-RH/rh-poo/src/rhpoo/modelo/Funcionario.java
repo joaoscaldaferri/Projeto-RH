@@ -1,4 +1,4 @@
-package br.com.rhmanager.model;
+package rhpoo.modelo;
 
 public class Funcionario extends Pessoa {
     private String cargo;

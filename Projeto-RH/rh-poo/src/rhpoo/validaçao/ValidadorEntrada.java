@@ -1,4 +1,4 @@
-package br.com.rhmanager.util;
+package rhpoo.validaçao;
 
 //classe que valida dados digitado pelo usuario
 public class ValidadorEntrada {

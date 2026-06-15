@@ -1,18 +1,18 @@
-package br.com.rhmanager.service;
+package rhpoo.serviço;
 
-import br.com.rhmanager.model.Funcionario;
-import br.com.rhmanager.util.ValidadorCPF;
-import br.com.rhmanager.util.ValidadorEntrada;
+import rhpoo.modelo.Funcionario;
+import rhpoo.validaçao.ValidadorCPF;
+import rhpoo.validaçao.ValidadorEntrada;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //classe que controla as operaçoes relacionadas a funcionários
-public class FuncionarioService {
+public class ServicoFuncionario {
     private List<Funcionario> funcionarios;
     private int proximoId;
 
-    public FuncionarioService() {
+    public ServicoFuncionario() {
         this.funcionarios = new ArrayList<>();
         this.proximoId = 1;
     }

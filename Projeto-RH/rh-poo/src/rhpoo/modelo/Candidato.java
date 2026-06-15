@@ -1,4 +1,4 @@
-package br.com.rhmanager.model;
+package rhpoo.modelo;
 
 public class Candidato extends Pessoa {
     private String areaAtuacao;
