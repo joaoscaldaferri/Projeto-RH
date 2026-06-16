@@ -1,26 +1,19 @@
-=======================================
  RELATÓRIO GERAL DO SISTEMA DE RH
-=======================================
 
-===== CANDIDATOS =====
-Candidato: João Pedro Santos | CPF: 529.982.247-25 | Área: Desenvolvimento Back-End | Experiência: 3 anos | Formação: Análise e Desenvolvimento de Sistemas
-Candidato: Maria Silva | CPF: 390.533.447-05 | Área: Recursos Humanos | Experiência: 5 anos | Formação: Gestão de RH
 
-===== FUNCIONÁRIOS =====
-Funcionário: Carlos Souza | CPF: 111.444.777-35 | Cargo: Analista de RH | Setor: Recursos Humanos | Turno: Manhã
-Funcionário: Ana Lima | CPF: 935.411.347-80 | Cargo: Supervisora | Setor: Administração | Turno: Tarde
+      CANDIDATOS:      
+Candidato: João Pedro | CPF:  390.533.447-05 | Área: TI | Experiência: 1 anos | Formação: ADS
 
-===== FÉRIAS E ESCALAS =====
-ID: 1 | Funcionário: Carlos Souza | Cargo: Analista de RH | Férias: 10/06/2026 até 25/06/2026 | Turno: Manhã
-ID: 2 | Funcionário: Ana Lima | Cargo: Supervisora | Férias: 01/07/2026 até 15/07/2026 | Turno: Tarde
+      FUNCIONÁRIOS:      
+Funcionário: Sheila | CPF: 85932740566 | Cargo: Professora | Setor: tecnologia | Turno: manhã
 
-===== ENTREVISTAS =====
-ID: 1 | Candidato: João Pedro Santos | Cargo: Analista Java | Urgência: 3 | Prioridade calculada: 5 | Data: 05/06/2026 | Horário: 14:30
+      FÉRIAS E ESCALAS:      
+ID: 1 | Funcionário: Sheila | Cargo: Professora | Férias: 09/05/2026 até 09/06/2026 | Turno: manhã
 
-===== FEEDBACKS =====
-ID: 2 | Funcionário: Ana Lima | Avaliador: Diretora Paula | Nota: 10 | Data: 02/06/2026 | Comentário: Boa liderança e ótimo desempenho nas entregas.
-ID: 1 | Funcionário: Carlos Souza | Avaliador: Gestor Marcos | Nota: 9 | Data: 01/06/2026 | Comentário: Funcionário comunicativo e organizado.
+      ENTREVISTAS:      
+ID: 1 | Candidato: João Pedro | Cargo: Progamador | Urgência: 3 | Prioridade calculada: 4 | Data: 10/06/2026 | Horário: 09:50
 
-=======================================
+      FEEDBACKS:      
+ID: 1 | Funcionário: Sheila | Avaliador: Joao | Nota: 9 | Data: 09/06/2026 | Comentário: ela é muito boa
+
  FIM DO RELATÓRIO
-=======================================
